@@ -35,19 +35,20 @@ public class JourneyCalculatorShould
         Assert.Throws<ArgumentException>(() => new JourneyCalculator(EmptyTimetable).GetNextTrainTime(AStartLocation, Nowhere));
     }
 
-    [Test]
-    public void Return_departure_time_from_start_location_when_there_is_a_matching_train()
+    [TestCase(10, "10:00am")]
+    [TestCase(0, "0:00am")]
+    public void Return_departure_time_from_start_location_when_there_is_a_matching_train(int departureHour, string formattedDeparture)
     {
         var timetable = new Timetable(new[]
         {
             new Train(new[]
             {
-                new Stop(AStartLocation, new TimeOnly(10, 0)),
-                new Stop(ADestination, new TimeOnly(11, 0))
+                new Stop(AStartLocation, new TimeOnly(departureHour, 0)),
+                new Stop(ADestination, new TimeOnly(departureHour + 1, 0))
             })
         });
         var journeyCalculator = new JourneyCalculator(timetable);
         var result = journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
-        Assert.That(result, Is.EqualTo("10:00am"));
+        Assert.That(result, Is.EqualTo(formattedDeparture));
     }
 }
