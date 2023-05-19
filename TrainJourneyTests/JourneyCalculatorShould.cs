@@ -36,7 +36,7 @@ public class JourneyCalculatorShould
     }
 
     [TestCase(10, 0, "10:00am")]
-    [TestCase(0, 0, "0:00am")]
+    [TestCase(0, 0, "00:00am")]
     [TestCase(23, 59, "23:59pm")]
     public void Return_departure_time_from_start_location_when_there_is_a_matching_train(int departureHour,
         int departureMinute, string formattedDeparture)
