@@ -2,7 +2,7 @@
 
 public class Timetable : ITimetable
 {
-    public IEnumerable<Train> TrainsBetween(string startLocation, string destination)
+    public IEnumerable<ITrain> TrainsBetween(string startLocation, string destination)
     {
         throw new NotImplementedException();
     }
