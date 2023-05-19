@@ -21,4 +21,10 @@ public class JourneyCalculatorShould
     {
         Assert.Throws<ArgumentException>(() => new JourneyCalculator().GetNextTrainTime("", "Destination"));
     }
+
+    [Test]
+    public void Throw_exception_when_no_destination_provided()
+    {
+        Assert.Throws<ArgumentException>(() => new JourneyCalculator().GetNextTrainTime("StartLocation", ""));
+    }
 }
