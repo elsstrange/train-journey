@@ -8,7 +8,12 @@ public class JourneyCalculatorShould
     private ITimetable _timetable;
     private JourneyCalculator _journeyCalculator;
     
-    private Train[] NoTrains;
+    private Train[] NoTrains = Array.Empty<Train>();
+    
+    private TimeOnly _tenAM = new(10, 0);
+    private TimeOnly _elevenAM = new(11, 0);
+    private TimeOnly _oneMinutePastTenAM = new(10, 1);
+    
     private const string AStartLocation = "StartLocation";
     private const string ADestination = "Destination";
     private const string Nowhere = "";
@@ -23,9 +28,10 @@ public class JourneyCalculatorShould
     [Test]
     public void Return_no_available_trains_when_there_is_no_timetable()
     {
-        NoTrains = Array.Empty<Train>();
         A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(NoTrains);
+        
         var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+        
         Assert.That(result, Is.EqualTo(TrainJourneyConstants.NoAvailableTrains));
     }
 
@@ -52,13 +58,14 @@ public class JourneyCalculatorShould
             new Train(new[]
             {
                 new Stop(AStartLocation, new TimeOnly(departureHour, departureMinute)),
-                new Stop(ADestination, new TimeOnly(0, 0))
+                new Stop(ADestination, _elevenAM)
             })
         };
 
         A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(singleValidTrain);
 
         var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+        
         Assert.That(result, Is.EqualTo(formattedDeparture));
     }
 
@@ -69,19 +76,20 @@ public class JourneyCalculatorShould
         {
             new Train(new[]
             {
-                new Stop(AStartLocation, new TimeOnly(10, 0)),
-                new Stop(ADestination, new TimeOnly(11, 0))
+                new Stop(AStartLocation, _tenAM),
+                new Stop(ADestination, _elevenAM)
             }),
             new Train(new[]
             {
-                new Stop(AStartLocation, new TimeOnly(10, 1)),
-                new Stop(ADestination, new TimeOnly(11, 0))
+                new Stop(AStartLocation, _oneMinutePastTenAM),
+                new Stop(ADestination, _elevenAM)
             })
         };
         
         A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(multipleValidTrains);
 
         var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+        
         Assert.That(result, Is.EqualTo("10:00am"));
     }
 }
