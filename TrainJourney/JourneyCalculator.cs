@@ -15,10 +15,11 @@ public class JourneyCalculator : IJourneyCalculator
             throw new ArgumentException("Start location and destination must be specified");
 
         var trains = _timetable.TrainsBetween(startLocation, destination);
+        
         if (!trains.Any())
             return TrainJourneyConstants.NoAvailableTrains;
 
-        return trains.Single()
+        return trains.OrderBy(t => t.Stops.Single(s => s.Location == startLocation).DepartureTime).First()
             .Stops.Single(s => s.Location == startLocation)
             .DepartureTime.ToString("HH:mmtt").ToLower();
     }
