@@ -12,7 +12,7 @@ public class JourneyCalculator : IJourneyCalculator
     public string GetNextTrainTime(string startLocation, string destination)
     {
         if (string.IsNullOrEmpty(startLocation) || string.IsNullOrEmpty(destination))
-            throw new ArgumentException("Start location must be specified");
+            throw new ArgumentException("Start location and destination must be specified");
 
         if (!_timetable.Trains.Any())
             return TrainJourneyConstants.NoAvailableTrains;
