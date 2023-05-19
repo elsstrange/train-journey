@@ -2,9 +2,9 @@
 
 public class JourneyCalculator : IJourneyCalculator
 {
-    private readonly Timetable _timetable;
+    private readonly ITimetable _timetable;
 
-    public JourneyCalculator(Timetable timetable)
+    public JourneyCalculator(ITimetable timetable)
     {
         _timetable = timetable;
     }
@@ -14,10 +14,11 @@ public class JourneyCalculator : IJourneyCalculator
         if (string.IsNullOrEmpty(startLocation) || string.IsNullOrEmpty(destination))
             throw new ArgumentException("Start location and destination must be specified");
 
-        if (!_timetable.Trains.Any())
+        var trains = _timetable.TrainsBetween(startLocation, destination);
+        if (!trains.Any())
             return TrainJourneyConstants.NoAvailableTrains;
 
-        return _timetable.Trains.Single()
+        return trains.Single()
             .Stops.Single(s => s.Location == startLocation)
             .DepartureTime.ToString("HH:mmtt").ToLower();
     }

@@ -1,10 +1,9 @@
 ﻿namespace TrainJourney;
 
-public class Timetable
+public class Timetable : ITimetable
 {
-    public IEnumerable<Train> Trains { get; }
-    public Timetable(IEnumerable<Train> trains)
+    public IEnumerable<Train> TrainsBetween(string startLocation, string destination)
     {
-        Trains = trains;
+        throw new NotImplementedException();
     }
 }
