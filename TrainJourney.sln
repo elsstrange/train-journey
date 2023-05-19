@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJourney", "TrainJourney\TrainJourney.csproj", "{6AE46D6E-D823-4C27-A130-6A73DE87118C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainJourneyTests", "TrainJourneyTests\TrainJourneyTests.csproj", "{BFA4DF77-9486-41EB-91DD-D403CDD7BB50}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AE46D6E-D823-4C27-A130-6A73DE87118C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AE46D6E-D823-4C27-A130-6A73DE87118C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AE46D6E-D823-4C27-A130-6A73DE87118C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AE46D6E-D823-4C27-A130-6A73DE87118C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFA4DF77-9486-41EB-91DD-D403CDD7BB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFA4DF77-9486-41EB-91DD-D403CDD7BB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFA4DF77-9486-41EB-91DD-D403CDD7BB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFA4DF77-9486-41EB-91DD-D403CDD7BB50}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
