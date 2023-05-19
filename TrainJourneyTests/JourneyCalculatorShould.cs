@@ -15,4 +15,10 @@ public class JourneyCalculatorShould
         var result = new JourneyCalculator().GetNextTrainTime("StartLocation", "Destination");
         Assert.That(result, Is.EqualTo(TrainJourneyConstants.NoAvailableTrains));
     }
+
+    [Test]
+    public void Throw_exception_when_no_start_location_provided()
+    {
+        Assert.Throws<ArgumentException>(() => new JourneyCalculator().GetNextTrainTime("", "Destination"));
+    }
 }
