@@ -61,4 +61,27 @@ public class JourneyCalculatorShould
         var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
         Assert.That(result, Is.EqualTo(formattedDeparture));
     }
+
+    [Test]
+    public void Return_the_earliest_train_when_there_are_multiple_matching_trains()
+    {
+        var multipleValidTrains = new[]
+        {
+            new Train(new[]
+            {
+                new Stop(AStartLocation, new TimeOnly(10, 0)),
+                new Stop(ADestination, new TimeOnly(11, 0))
+            }),
+            new Train(new[]
+            {
+                new Stop(AStartLocation, new TimeOnly(10, 1)),
+                new Stop(ADestination, new TimeOnly(11, 0))
+            })
+        };
+        
+        A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(multipleValidTrains);
+
+        var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+        Assert.That(result, Is.EqualTo("10:00am"));
+    }
 }
