@@ -95,4 +95,25 @@ public class JourneyCalculatorShould
 
         Assert.That(result, Is.EqualTo("10:00am"));
     }
+    
+    [Test]
+    public void Return_no_available_trains_when_all_trains_have_departed()
+    {
+        var stops = new[]
+        {
+            new Stop(AStartLocation, new TimeOnly(0,0)),
+            new Stop(ADestination, new TimeOnly(0, 1) )
+        };
+        
+        var departedTrain = A.Fake<ITrain>();
+        A.CallTo(() => departedTrain.Departed(AStartLocation)).Returns(true);
+        A.CallTo(() => departedTrain.Stops).Returns(stops);
+        var departedTrains = new []{ departedTrain };
+        
+        A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(departedTrains);
+
+        var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+
+        Assert.That(result, Is.EqualTo(TrainJourneyConstants.NoAvailableTrains));
+    }
 }
