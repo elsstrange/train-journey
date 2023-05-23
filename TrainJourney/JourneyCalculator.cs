@@ -19,7 +19,8 @@ public class JourneyCalculator : IJourneyCalculator
         if (!trains.Any(t => !t.Departed(startLocation)))
             return TrainJourneyConstants.NoAvailableTrains;
 
-        return trains.OrderBy(t => t.Stops.Single(s => s.Location == startLocation).DepartureTime).First()
+        return trains.Where(t => !t.Departed(startLocation))
+            .OrderBy(t => t.Stops.Single(s => s.Location == startLocation).DepartureTime).First()
             .Stops.Single(s => s.Location == startLocation)
             .DepartureTime.ToString("HH:mmtt").ToLower();
     }
