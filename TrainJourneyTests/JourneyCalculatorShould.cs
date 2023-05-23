@@ -130,6 +130,7 @@ public class JourneyCalculatorShould
             earliestDeparture,
             arrivalAtDestination
         });
+        A.CallTo(() => departedTrain.Departed(AStartLocation)).Returns(true);
 
         var futureTrain = A.Fake<ITrain>();
         A.CallTo(() => futureTrain.Stops).Returns(new[]
@@ -137,6 +138,7 @@ public class JourneyCalculatorShould
             laterDeparture,
             arrivalAtDestination
         });
+        A.CallTo(() => futureTrain.Departed(AStartLocation)).Returns(false);
 
         var multipleValidTrains = new[] { departedTrain, futureTrain };
         A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(multipleValidTrains);
