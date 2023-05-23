@@ -14,14 +14,14 @@ public class JourneyCalculator : IJourneyCalculator
         if (string.IsNullOrEmpty(startLocation) || string.IsNullOrEmpty(destination))
             throw new ArgumentException("Start location and destination must be specified");
 
-        var trains = _timetable.TrainsBetween(startLocation, destination);
-        
-        if (!trains.Any(t => !t.Departed(startLocation)))
+        var futureTrains = _timetable.TrainsBetween(startLocation, destination)
+            .Where(t => !t.Departed(startLocation));
+
+        if (!futureTrains.Any())
             return TrainJourneyConstants.NoAvailableTrains;
 
-        return trains.Where(t => !t.Departed(startLocation))
-            .OrderBy(t => t.Stops.Single(s => s.Location == startLocation).DepartureTime).First()
-            .Stops.Single(s => s.Location == startLocation)
+        return futureTrains.Select(t => t.Stops.Single(s => s.Location == startLocation))
+            .OrderBy(s => s.DepartureTime).First()
             .DepartureTime.ToString("HH:mmtt").ToLower();
     }
 }
