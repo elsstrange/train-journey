@@ -116,4 +116,33 @@ public class JourneyCalculatorShould
 
         Assert.That(result, Is.EqualTo(TrainJourneyConstants.NoAvailableTrains));
     }
+
+    [Test]
+    public void Return_earliest_undeparted_train_when_some_trains_have_departed()
+    {
+        var earliestDeparture = new Stop(AStartLocation, _tenAM);
+        var laterDeparture = new Stop(AStartLocation, _oneMinutePastTenAM);
+        var arrivalAtDestination = new Stop(ADestination, _elevenAM);
+
+        var departedTrain = A.Fake<ITrain>();
+        A.CallTo(() => departedTrain.Stops).Returns(new[]
+        {
+            earliestDeparture,
+            arrivalAtDestination
+        });
+
+        var futureTrain = A.Fake<ITrain>();
+        A.CallTo(() => futureTrain.Stops).Returns(new[]
+        {
+            laterDeparture,
+            arrivalAtDestination
+        });
+
+        var multipleValidTrains = new[] { departedTrain, futureTrain };
+        A.CallTo(() => _timetable.TrainsBetween(AStartLocation, ADestination)).Returns(multipleValidTrains);
+
+        var result = _journeyCalculator.GetNextTrainTime(AStartLocation, ADestination);
+
+        Assert.That(result, Is.EqualTo("10:01am"));
+    }
 }
