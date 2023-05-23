@@ -16,7 +16,7 @@ public class JourneyCalculator : IJourneyCalculator
 
         var trains = _timetable.TrainsBetween(startLocation, destination);
         
-        if (!trains.Any())
+        if (!trains.Any(t => !t.Departed(startLocation)))
             return TrainJourneyConstants.NoAvailableTrains;
 
         return trains.OrderBy(t => t.Stops.Single(s => s.Location == startLocation).DepartureTime).First()
